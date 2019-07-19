@@ -1,14 +1,13 @@
 import React from 'react'
 
-const ListItem = ({ item }) => {
-  const {
-    name,
-    username,
-    email,
-    website,
-    phone,
-    address: { street, suite, city, zipcode },
-  } = item
+const ListItem = ({
+  name,
+  username,
+  email,
+  website,
+  phone,
+  address: { street, suite, city, zipcode },
+}) => {
   return (
     <li className="list-item">
       <h4>{name}</h4>
@@ -52,7 +51,7 @@ const ListItem = ({ item }) => {
 export default ({ data }) => (
   <div className="list">
     <ul className="list-items">
-      {data && data.map((user, index) => <ListItem key={index} item={user} />)}
+      {data && data.map(({ id, ...rest }) => <ListItem key={id} {...rest} />)}
     </ul>
   </div>
 )

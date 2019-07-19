@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 
 import { InputSearch, List } from './components'
 
@@ -14,9 +13,9 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get('https://jsonplaceholder.typicode.com/users')
-      .then(res => this.setState({ users: res.data }))
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then(users => this.setState({ users }))
       .catch(e => console.log({ e }))
   }
 
