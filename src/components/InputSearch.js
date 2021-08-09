@@ -1,29 +1,24 @@
-import React, { Component } from 'react'
+import React, { useState } from "react";
 
-class InputSearch extends Component {
-  handleChange = e => {
-    this.props.onSearch(e.target.value)
-  }
+const InputSearch = ({ onSearch }) => {
+  const [searchKey, setSearchKey] = useState("");
 
-  render() {
-    const { isLoading, notFound } = this.props
+  const handleChange = (e) => {
+    setSearchKey(e.target.value);
+    onSearch(e.target.value);
+  };
 
-    return (
-      <div className="search-input">
-        <div style={{ position: 'relative' }}>
-          <input
-            type="search"
-            placeholder="Enter Search Key..."
-            autoFocus
-            onChange={this.handleChange}
-          />
-        </div>
-        {!isLoading && notFound && (
-          <div className="search-result-text">No Data Found!</div>
-        )}
-      </div>
-    )
-  }
-}
+  return (
+    <div className="search-input">
+      <input
+        type="text"
+        value={searchKey}
+        placeholder="Enter Search Key..."
+        autoFocus
+        onChange={handleChange}
+      />
+    </div>
+  );
+};
 
-export default InputSearch
+export default InputSearch;

@@ -1,43 +1,16 @@
-import React, { Component } from 'react'
+import React, { useState } from "react";
+import { InputSearch, UserList } from "./components";
+import "./App.scss";
 
-import { InputSearch, List } from './components'
+const App = () => {
+  const [searchKey, setSearchKey] = useState("");
 
-import { isSearch } from './utils'
+  return (
+    <div className="card">
+      <InputSearch onSearch={setSearchKey} />
+      <UserList searchKey={searchKey} />
+    </div>
+  );
+};
 
-import './App.css'
-
-export default class App extends Component {
-  state = {
-    users: null,
-    searchKey: '',
-  }
-
-  componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(res => res.json())
-      .then(users => this.setState({ users }))
-      .catch(e => console.log({ e }))
-  }
-
-  updateSearchKey = key => {
-    this.setState({ searchKey: key })
-  }
-
-  render() {
-    const { users, searchKey } = this.state
-    const list = (users && isSearch(users, searchKey)) || []
-
-    return (
-      <div className="layout">
-        <div className="card">
-          <InputSearch
-            onSearch={this.updateSearchKey}
-            isLoading={!users}
-            notFound={list.length === 0}
-          />
-          <List data={list} />
-        </div>
-      </div>
-    )
-  }
-}
+export default App;

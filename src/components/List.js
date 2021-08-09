@@ -1,57 +1,44 @@
-import React from 'react'
+import React from "react";
 
-const ListItem = ({
-  name,
-  username,
-  email,
-  website,
-  phone,
-  address: { street, suite, city, zipcode },
-}) => {
+const ListItem = ({ data, children }) => {
   return (
-    <li className="list-item">
-      <h4>{name}</h4>
-      <div>
-        <i className="fas fa-user" />
-        {username}
-      </div>
-      <div className="info-item">
-        <i className="fas fa-envelope" />
-        {email}
-      </div>
-      <div>
-        <i className="fas fa-map-marker-alt" />
-        <div>
-          {street}
-          <br />
-          {suite}
-          <br />
-          {city}
-          <br />
-          {zipcode}
-        </div>
-      </div>
-      <div>
-        <i className="fas fa-link" />
-        <a href={`http://www.${website}`} target="_blank" rel="opener">
-          {website}
-        </a>
-      </div>
-
-      <div className="list-item-footer">
-        <div className="action">
-          <i className="fas fa-phone" />
-          {phone}
-        </div>
-      </div>
+    <li className="list-item" tabIndex={0}>
+      {children}
     </li>
-  )
-}
+  );
+};
 
-export default ({ data }) => (
-  <div className="list">
-    <ul className="list-items">
-      {data && data.map(({ id, ...rest }) => <ListItem key={id} {...rest} />)}
-    </ul>
-  </div>
-)
+const List = ({ data, renderItem }) => {
+  const handleKeyPress = (event) => {
+    switch (event.keyCode) {
+      case 37: // ArrowLeft
+      case 38: // ArrowTop
+        event.target.previousSibling && event.target.previousSibling.focus();
+        break;
+      case 39: // ArrowRight
+      case 40: // ArrowDown
+        event.target.nextSibling && event.target.nextSibling.focus();
+        break;
+      default:
+        break;
+    }
+  };
+
+  if (data.length > 0) {
+    return (
+      <ul onKeyDown={handleKeyPress}>
+        {data.map(({ id, ...rest }) => {
+          return (
+            <ListItem key={id} {...rest}>
+              {renderItem(rest)}
+            </ListItem>
+          );
+        })}
+      </ul>
+    );
+  }
+
+  return <div className="search-result-text">No Data Found!</div>;
+};
+
+export default List;
